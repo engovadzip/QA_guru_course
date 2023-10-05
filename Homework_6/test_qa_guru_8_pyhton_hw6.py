@@ -15,6 +15,7 @@ def test_dark_theme_by_time():
     current_time_string = current_time.strftime("%H:%M")
     assert is_dark_theme, f'Dark theme turns on at 22:00 and turns off at 6:00. Current time is {current_time_string}.'
 
+
 def test_dark_theme_by_time_and_user_choice():
     night_beginning = time(hour=22)
     night_end = time(hour=6)
@@ -64,18 +65,6 @@ def test_find_suitable_user():
         {"name": "Maria", "age": 18},
     ]
 
-
-
-
-# Сделайте функцию, которая будет печатать
-# читаемое имя переданной ей функции и значений аргументов.
-# Вызовите ее внутри функций, описанных ниже
-# Подсказка: Имя функции можно получить с помощью func.__name__
-# Например, вызов следующей функции должен преобразовать имя функции
-# в более читаемый вариант (заменить символ подчеркивания на пробел,
-# сделать буквы заглавными (или первую букву), затем вывести значения всех аргументов этой функции:
-# >>> open_browser(browser_name="Chrome")
-# "Open Browser [Chrome]"
 
 def print_function_name(func, *args):
     function_name = func.__name__.replace('_', ' ').title()
