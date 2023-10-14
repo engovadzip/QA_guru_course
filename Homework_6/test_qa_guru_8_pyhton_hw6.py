@@ -28,8 +28,12 @@ def test_dark_theme_by_time_and_user_choice():
         is_dark_theme = True
     elif dark_theme_enabled_by_user == False:
         is_dark_theme = False
+    elif current_time < night_end or night_beginning <= current_time:
+        is_dark_theme = True
     else:
-        test_dark_theme_by_time()
+        is_dark_theme = False
+        current_time_string = current_time.strftime("%H:%M")
+        assert is_dark_theme, f'Dark theme turns on at 22:00 and turns off at 6:00. Current time is {current_time_string}.'
 
     assert is_dark_theme, 'User turns off the dark theme.'
 
@@ -69,6 +73,7 @@ def test_find_suitable_user():
 def print_function_name(func, *args):
     function_name = func.__name__.replace('_', ' ').title()
     result = f"{function_name} [{', '.join(args)}]"
+    print(result)
     return result
 
 def test_readable_function():
