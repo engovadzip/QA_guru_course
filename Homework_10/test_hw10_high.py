@@ -1,6 +1,6 @@
 import allure
-from Homework_10.high.pages.registration_page_high import RegistrationPage
-from Homework_10.high.users.users import User
+from Homework_10.pages.registration_page_high import RegistrationPage
+from Homework_10.users.users import User
 
 
 @allure.step("Проверка формы регистрации")
