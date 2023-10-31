@@ -1,3 +1,5 @@
+/pages/__pycache__
+/users/__pycache__
 /venv
 /.pytest_cache
 /.idea
