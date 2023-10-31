@@ -1,7 +1,7 @@
 import allure
 import time
 
-from Homework_10.mid.pages.registration_page_mid import RegistrationPage
+from Homework_10.pages.registration_page_mid import RegistrationPage
 
 
 @allure.step("Проверка формы регистрации")
