@@ -1,0 +1,17 @@
+{
+  "base": {
+    "project": "TelegramBotNotifications",
+    "environment": "TEST",
+    "comment": "Bot notifications test",
+    "reportLink": "",
+    "language": "en",
+    "allureFolder": "build/allure-report/",
+    "enableChart": true,
+    "durationFormat": "HH:mm:ss.SSS"
+  },
+  "telegram": {
+    "token": "token_id",
+    "chat": "chat_id",
+    "replyTo": ""
+  }
+}
