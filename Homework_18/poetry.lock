@@ -31,21 +31,6 @@ tests-mypy = ["mypy (>=1.6)", "pytest-mypy-plugins"]
 tests-no-zope = ["attrs[tests-mypy]", "cloudpickle", "hypothesis", "pympler", "pytest (>=4.3.0)", "pytest-xdist[psutil]"]
 
 [[package]]
-name = "backports-functools-lru-cache"
-version = "2.0.0"
-description = "Backport of functools.lru_cache"
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "backports.functools_lru_cache-2.0.0-py2.py3-none-any.whl", hash = "sha256:0a754323a46847735a112677fb8807b45f6d824d02a5795a50905218ac56a0d6"},
-    {file = "backports.functools_lru_cache-2.0.0.tar.gz", hash = "sha256:dcbfa5e0dae8a014168807c9e026d33eead71df5af76c1fb78fd248bf07f6f99"},
-]
-
-[package.extras]
-docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (<7.2.5)", "sphinx (>=3.5)", "sphinx-lint"]
-testing = ["pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-mypy (>=0.9.1)", "pytest-ruff"]
-
-[[package]]
 name = "certifi"
 version = "2023.11.17"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -474,20 +459,20 @@ use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
 name = "selene"
-version = "1.0.2"
-description = "Concise API for selenium in Python + Ajax support + PageObjects (Selenide port from Java to Python)"
+version = "2.0.0rc4"
+description = "User-oriented browser tests in Python (Selenide port)"
 optional = false
-python-versions = "*"
+python-versions = ">=3.7,<4.0"
 files = [
-    {file = "selene-1.0.2-py3-none-any.whl", hash = "sha256:672cdb35b33560d2ec0f1b6a686f09f40d6f56b787d327965bd05777b5f15f79"},
+    {file = "selene-2.0.0rc4-py3-none-any.whl", hash = "sha256:50b007df6629a1a25e8336eaef5d275a416b6ac9adce666acfe30ae7b0bede9c"},
+    {file = "selene-2.0.0rc4.tar.gz", hash = "sha256:863b3adda4c2d23cc817e80d79ee7a625ba8ca4786f72f55a1d6236d4c66e25b"},
 ]
 
 [package.dependencies]
-"backports.functools-lru-cache" = "*"
 future = "*"
-selenium = "*"
-six = "*"
-webdriver-manager = "*"
+selenium = ">=4.4.3"
+typing-extensions = ">=4.6.1"
+webdriver-manager = "3.8.6"
 
 [[package]]
 name = "selenium"
@@ -505,17 +490,6 @@ certifi = ">=2021.10.8"
 trio = ">=0.17,<1.0"
 trio-websocket = ">=0.9,<1.0"
 urllib3 = {version = ">=1.26,<3", extras = ["socks"]}
-
-[[package]]
-name = "six"
-version = "1.16.0"
-description = "Python 2 and 3 compatibility utilities"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
-files = [
-    {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
-    {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
-]
 
 [[package]]
 name = "sniffio"
@@ -549,6 +523,26 @@ files = [
     {file = "tomlkit-0.12.3-py3-none-any.whl", hash = "sha256:b0a645a9156dc7cb5d3a1f0d4bab66db287fcb8e0430bdd4664a095ea16414ba"},
     {file = "tomlkit-0.12.3.tar.gz", hash = "sha256:75baf5012d06501f07bee5bf8e801b9f343e7aac5a92581f20f80ce632e6b5a4"},
 ]
+
+[[package]]
+name = "tqdm"
+version = "4.66.1"
+description = "Fast, Extensible Progress Meter"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "tqdm-4.66.1-py3-none-any.whl", hash = "sha256:d302b3c5b53d47bce91fea46679d9c3c6508cf6332229aa1e7d8653723793386"},
+    {file = "tqdm-4.66.1.tar.gz", hash = "sha256:d88e651f9db8d8551a62556d3cff9e3034274ca5d66e93197cf2490e2dcb69c7"},
+]
+
+[package.dependencies]
+colorama = {version = "*", markers = "platform_system == \"Windows\""}
+
+[package.extras]
+dev = ["pytest (>=6)", "pytest-cov", "pytest-timeout", "pytest-xdist"]
+notebook = ["ipywidgets (>=6)"]
+slack = ["slack-sdk"]
+telegram = ["requests"]
 
 [[package]]
 name = "trio"
@@ -585,6 +579,17 @@ trio = ">=0.11"
 wsproto = ">=0.14"
 
 [[package]]
+name = "typing-extensions"
+version = "4.9.0"
+description = "Backported and Experimental Type Hints for Python 3.8+"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "typing_extensions-4.9.0-py3-none-any.whl", hash = "sha256:af72aea155e91adfc61c3ae9e0e342dbc0cba726d6cba4b6c72c1f34e47291cd"},
+    {file = "typing_extensions-4.9.0.tar.gz", hash = "sha256:23478f88c37f27d76ac8aee6c905017a143b0b1b886c3c9f66bc2fd94f9f5783"},
+]
+
+[[package]]
 name = "urllib3"
 version = "2.1.0"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
@@ -605,19 +610,20 @@ zstd = ["zstandard (>=0.18.0)"]
 
 [[package]]
 name = "webdriver-manager"
-version = "4.0.1"
+version = "3.8.6"
 description = "Library provides the way to automatically manage drivers for different browsers"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "webdriver_manager-4.0.1-py2.py3-none-any.whl", hash = "sha256:d7970052295bb9cda2c1a24cf0b872dd2c41ababcc78f7b6b8dc37a41e979a7e"},
-    {file = "webdriver_manager-4.0.1.tar.gz", hash = "sha256:25ec177c6a2ce9c02fb8046f1b2732701a9418d6a977967bb065d840a3175d87"},
+    {file = "webdriver_manager-3.8.6-py2.py3-none-any.whl", hash = "sha256:7d3aa8d67bd6c92a5d25f4abd75eea2c6dd24ea6617bff986f502280903a0e2b"},
+    {file = "webdriver_manager-3.8.6.tar.gz", hash = "sha256:ee788d389b8f45222a8a62f6f39b579360a1f87be46dad6da89918354af3ce73"},
 ]
 
 [package.dependencies]
 packaging = "*"
 python-dotenv = "*"
 requests = "*"
+tqdm = "*"
 
 [[package]]
 name = "wsproto"
@@ -636,4 +642,4 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "72a68e75c67d962536be595f823358ddaf6a53cf8b13c585819b9139344d3988"
+content-hash = "fdab5193b6d17e1840a54f3e6e161bfcc30577f09e1e8304b1dd83871b3f0e46"
