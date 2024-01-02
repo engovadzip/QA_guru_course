@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.11"
 pytest = "^7.4.4"
 selenium = "^4.16.0"
+selene = "^1.0.2"
 
 
 [tool.poetry.group.dev.dependencies]
