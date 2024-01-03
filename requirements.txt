@@ -25,3 +25,5 @@ packaging~=23.2
 wsproto~=1.2.0
 tqdm~=4.66.1
 python-dotenv~=1.0.0
+requests
+jsonschema
