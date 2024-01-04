@@ -1,7 +1,9 @@
+from allure_commons.types import AttachmentType
 from selene import browser, command, have, query
 import allure
+import json
+import logging
 import requests
-import time
 
 
 URL = 'https://demowebshop.tricentis.com/'
@@ -11,7 +13,7 @@ PASSWORD = "123456"
 
 def test_log_in_demoshop_through_API():
     with allure.step('Open "Log in" page'):
-        browser.open('')
+        browser.open(URL)
         browser.element('.ico-login').click()
         browser.element('.email')
 
@@ -21,6 +23,11 @@ def test_log_in_demoshop_through_API():
             data={"Email": LOGIN, "Password": PASSWORD, "RememberMe": False},
             allow_redirects=False
         )
+        allure.attach(body=str(response.cookies), name="Cookies", attachment_type=AttachmentType.TEXT, extension="txt")
+
+        logging.info(response.request.url)
+        logging.info(response.status_code)
+        logging.info(response.text)
 
     with allure.step('Get cookie from API'):
         cookie = response.cookies.get("NOPCOMMERCE.AUTH")
@@ -76,6 +83,14 @@ def test_add_gift_card_to_cart_through_API():
                 }
         )
 
+        allure.attach(body=json.dumps(response.json(), indent=4, ensure_ascii=True), name="Response",
+                      attachment_type=AttachmentType.JSON, extension="json")
+        allure.attach(body=str(response.cookies), name="Cookies", attachment_type=AttachmentType.TEXT, extension="txt")
+
+        logging.info(response.request.url)
+        logging.info(response.status_code)
+        logging.info(response.text)
+
         assert response.status_code == 200
 
         with allure.step('Get cookie from API'):
@@ -114,6 +129,13 @@ def test_add_5_laptops_to_cart_through_API():
             url=URL + "addproducttocart/details/31/1",
             data={"addtocart_31.EnteredQuantity": 5}
         )
+        allure.attach(body=json.dumps(response.json(), indent=4, ensure_ascii=True), name="Response",
+                      attachment_type=AttachmentType.JSON, extension="json")
+        allure.attach(body=str(response.cookies), name="Cookies", attachment_type=AttachmentType.TEXT, extension="txt")
+
+        logging.info(response.request.url)
+        logging.info(response.status_code)
+        logging.info(response.text)
 
         assert response.status_code == 200
 
