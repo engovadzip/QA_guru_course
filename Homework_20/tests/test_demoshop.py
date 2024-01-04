@@ -1,4 +1,4 @@
-from selene import browser, have, query
+from selene import browser, command, have, query
 import allure
 import requests
 import time
@@ -17,7 +17,7 @@ def test_log_in_demoshop_through_API():
 
     with allure.step('Login through API'):
         response = requests.post(
-            url=URL + "/login",
+            url=URL + "login",
             data={"Email": LOGIN, "Password": PASSWORD, "RememberMe": False},
             allow_redirects=False
         )
@@ -55,8 +55,50 @@ def test_clear_cart():
         with allure.step('Check that cart is empty'):
             browser.element('.order-summary-content').should(have.text('Cart is empty'))
 
-def test_add_laptop_to_cart_through_API():
+
+def test_add_gift_card_to_cart_through_API():
+    with allure.step('Open gift card description page'):
+        browser.open(URL)
+        browser.element('.product-title').should(have.text("Gift Card")).perform(command.js.scroll_into_view).click()
+        browser.element("//h1").should(have.text("Gift Card"))
+        product_name = browser.element('//h1').get(query.text)
+
+    with allure.step('Add gift card to cart through API'):
+        response = requests.post(
+            url=URL + "/addproducttocart/details/2/1",
+            data={
+                "giftcard_2.RecipientName": "You",
+                "giftcard_2.RecipientEmail": "your@email.com",
+                "giftcard_2.SenderName": "Exam Ple",
+                "giftcard_2.SenderEmail": "example1200@example.com",
+                "giftcard_2.Message": "Happy New Year!",
+                "addtocart_2.EnteredQuantity": 1
+                }
+        )
+
+        assert response.status_code == 200
+
+        with allure.step('Get cookie from API'):
+            cookie = response.cookies.get("Nop.customer")
+
+        with allure.step('Set cookie from API'):
+            browser.open(URL)
+            browser.driver.add_cookie({"name": "Nop.customer", "value": cookie})
+            browser.open(URL)
+
+        with allure.step('Check that added product is in cart'):
+            browser.element('.header-links .ico-cart').click()
+            browser.element('.product-name').should(have.text(product_name))
+            browser.element('.cart-item-row .attributes').should(have.text("You"))
+            browser.element('.cart-item-row .attributes').should(have.text("your@email.com"))
+            browser.element('.cart-item-row .attributes').should(have.text("Exam Ple"))
+            browser.element('.cart-item-row .attributes').should(have.text("example1200@example.com"))
+            browser.element('.qty-input').should(have.attribute('value', '1'))
+
+
+def test_add_5_laptops_to_cart_through_API():
     with allure.step('Open "Notebooks" category'):
+        browser.open(URL)
         browser.element('.top-menu a[href="/computers"]').hover()
         browser.element('.top-menu a[href="/notebooks"]').click()
         browser.element("//h1").should(have.text("Notebooks"))
@@ -83,6 +125,7 @@ def test_add_laptop_to_cart_through_API():
             browser.driver.add_cookie({"name": "Nop.customer", "value": cookie})
             browser.open(URL)
 
-        with allure.step('Check that added product in cart'):
+        with allure.step('Check that added product is in cart'):
             browser.element('.header-links .ico-cart').click()
             browser.element('.product-name').should(have.text(product_name))
+            browser.element('.qty-input').should(have.attribute('value', '5'))
