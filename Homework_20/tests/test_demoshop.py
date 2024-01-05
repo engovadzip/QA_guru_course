@@ -9,6 +9,7 @@ import requests
 URL = 'https://demowebshop.tricentis.com/'
 LOGIN = "example1200@example.com"
 PASSWORD = "123456"
+cookie = ''
 
 
 def test_log_in_demoshop_through_API():
@@ -29,6 +30,7 @@ def test_log_in_demoshop_through_API():
         logging.info(response.status_code)
         logging.info(response.text)
 
+    global cookie
     with allure.step('Get cookie from API'):
         cookie = response.cookies.get("NOPCOMMERCE.AUTH")
 
@@ -72,7 +74,7 @@ def test_add_gift_card_to_cart_through_API():
 
     with allure.step('Add gift card to cart through API'):
         response = requests.post(
-            url=URL + "/addproducttocart/details/2/1",
+            url=URL + "addproducttocart/details/2/1",
             data={
                 "giftcard_2.RecipientName": "You",
                 "giftcard_2.RecipientEmail": "your@email.com",
@@ -80,7 +82,8 @@ def test_add_gift_card_to_cart_through_API():
                 "giftcard_2.SenderEmail": "example1200@example.com",
                 "giftcard_2.Message": "Happy New Year!",
                 "addtocart_2.EnteredQuantity": 1
-                }
+                },
+            cookies={"NOPCOMMERCE.AUTH": cookie}
         )
 
         allure.attach(body=json.dumps(response.json(), indent=4, ensure_ascii=True), name="Response",
@@ -92,9 +95,6 @@ def test_add_gift_card_to_cart_through_API():
         logging.info(response.text)
 
         assert response.status_code == 200
-
-        with allure.step('Get cookie from API'):
-            cookie = response.cookies.get("Nop.customer")
 
         with allure.step('Set cookie from API'):
             browser.open(URL)
@@ -127,7 +127,8 @@ def test_add_5_laptops_to_cart_through_API():
     with allure.step('Add laptop to cart through API'):
         response = requests.post(
             url=URL + "addproducttocart/details/31/1",
-            data={"addtocart_31.EnteredQuantity": 5}
+            data={"addtocart_31.EnteredQuantity": 5},
+            cookies={"NOPCOMMERCE.AUTH": cookie}
         )
         allure.attach(body=json.dumps(response.json(), indent=4, ensure_ascii=True), name="Response",
                       attachment_type=AttachmentType.JSON, extension="json")
@@ -139,9 +140,6 @@ def test_add_5_laptops_to_cart_through_API():
 
         assert response.status_code == 200
 
-        with allure.step('Get cookie from API'):
-            cookie = response.cookies.get("Nop.customer")
-
         with allure.step('Set cookie from API'):
             browser.open(URL)
             browser.driver.add_cookie({"name": "Nop.customer", "value": cookie})
@@ -149,5 +147,5 @@ def test_add_5_laptops_to_cart_through_API():
 
         with allure.step('Check that added product is in cart'):
             browser.element('.header-links .ico-cart').click()
-            browser.element('.product-name').should(have.text(product_name))
-            browser.element('.qty-input').should(have.attribute('value', '5'))
+            browser.all('.product-name').second.should(have.text(product_name))
+            browser.all('.qty-input').second.should(have.attribute('value', '5'))
