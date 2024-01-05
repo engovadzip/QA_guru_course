@@ -96,19 +96,14 @@ def test_add_gift_card_to_cart_through_API():
 
         assert response.status_code == 200
 
-        with allure.step('Set cookie from API'):
-            browser.open(URL)
-            browser.driver.add_cookie({"name": "Nop.customer", "value": cookie})
-            browser.open(URL)
-
-        with allure.step('Check that added product is in cart'):
-            browser.element('.header-links .ico-cart').click()
-            browser.element('.product-name').should(have.text(product_name))
-            browser.element('.cart-item-row .attributes').should(have.text("You"))
-            browser.element('.cart-item-row .attributes').should(have.text("your@email.com"))
-            browser.element('.cart-item-row .attributes').should(have.text("Exam Ple"))
-            browser.element('.cart-item-row .attributes').should(have.text("example1200@example.com"))
-            browser.element('.qty-input').should(have.attribute('value', '1'))
+    with allure.step('Check that added product is in cart'):
+        browser.element('.header-links .ico-cart').click()
+        browser.element('.product-name').should(have.text(product_name))
+        browser.element('.cart-item-row .attributes').should(have.text("You"))
+        browser.element('.cart-item-row .attributes').should(have.text("your@email.com"))
+        browser.element('.cart-item-row .attributes').should(have.text("Exam Ple"))
+        browser.element('.cart-item-row .attributes').should(have.text("example1200@example.com"))
+        browser.element('.qty-input').should(have.attribute('value', '1'))
 
 
 def test_add_5_laptops_to_cart_through_API():
@@ -140,12 +135,7 @@ def test_add_5_laptops_to_cart_through_API():
 
         assert response.status_code == 200
 
-        with allure.step('Set cookie from API'):
-            browser.open(URL)
-            browser.driver.add_cookie({"name": "Nop.customer", "value": cookie})
-            browser.open(URL)
-
-        with allure.step('Check that added product is in cart'):
-            browser.element('.header-links .ico-cart').click()
-            browser.all('.product-name').second.should(have.text(product_name))
-            browser.all('.qty-input').second.should(have.attribute('value', '5'))
+    with allure.step('Check that added product is in cart'):
+        browser.element('.header-links .ico-cart').click()
+        browser.all('.product-name').second.should(have.text(product_name))
+        browser.all('.qty-input').second.should(have.attribute('value', '5'))
